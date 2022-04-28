@@ -1,12 +1,13 @@
 export const initialState = {
   basket: [],
+  user: null, // by default user will be null if the user is not logged in
 };
 
 export const getBasketTotal = (basket) =>
   basket.reduce((amount, item) => item.price + amount, 0); // sum the price of the basket
 
 const reducer = (state, action) => {
-    console.log(action);
+  console.log(action);
   switch (
     action.type // what the action.type is will be determined by the action.type
   ) {
@@ -35,6 +36,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         basket: newBasket,
+      }; // return the new state
+
+    case "SET_USER": // set the user according to the action.user
+      return {
+        ...state,
+        user: action.user, // set the user to the action.user
       }; // return the new state
 
     default:

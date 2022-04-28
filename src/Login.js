@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
 
 function Login() {
+  const navigate = useNavigate();
   // useState is a hook that allows us to create a state variable
   const [email, setEmail] = useState(""); // email state, useStats is always set to an empty parentheses
   const [password, setPassword] = useState(""); // password state
@@ -10,12 +12,28 @@ function Login() {
   const signIn = (event) => {
     event.preventDefault(); // prevents the page from refreshing by default
     console.log("sign in with email and password");
-  }
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        navigate("/");
+      })
+      .catch((error) => alert(error.message));
+  };
 
   const register = (event) => {
     event.preventDefault();
 
-  }
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        if (authUser) {
+          navigate("/"); // redirect to the home page
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
   return (
     <div className="login">
@@ -23,6 +41,7 @@ function Login() {
         <img
           className="login__logo"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png"
+          alt="logo"
         />
       </Link>
 
