@@ -38,7 +38,8 @@ function Header() {
           {" "}
           {/* if the user is not logged in, it will redirect to the login page, if the user is logged in, it will redirect to the home page */}
           <div onClick={handleAuthentication} className="header__option">
-            <span className="header__optionLineOne">Hello Guest</span>
+            {/* this we display the user name or email */}
+            <span className="header__optionLineOne">{user ? user.email : 'Hello Guest' }</span> 
             <span className="header__optionLineTwo">
               {user ? "Sign Out" : "Sign In"}
             </span>
